@@ -6,4 +6,4 @@
 resource_local_to_scene = true
 shader = ExtResource("1_rvhc3")
 shader_parameter/step = Vector2(1, 0)
-shader_parameter/radius = 8.0
+shader_parameter/radius = 10.0

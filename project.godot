@@ -12,4 +12,4 @@ config_version=5
 
 config/name="Blur Example in Godot 4"
 run/main_scene="res://BlurExample.tscn"
-config/features=PackedStringArray("4.1")
+config/features=PackedStringArray("4.3")
