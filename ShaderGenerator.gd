@@ -4,7 +4,7 @@ extends EditorScript
 # Adjust the constants below according to your needs.
 # Then run the script using File > Run.
 
-const RADIUS := 10.0 # Radius of blur kernel.
+const RADIUS := 40.0 # Radius of blur kernel.
 const SIGMA_RANGE := 2.0 # How many standard deviations fit inside the radius.
 const OUTPUT_FILE := "res://Blur.gdshader" # Name of output file to write.
 
@@ -47,7 +47,7 @@ func _run():
 	for i in range(len(sample_xs)):
 		var x: float = sample_xs[i]
 		var w: float = sample_weights[i]
-		samples.push_back('%.9f * texture(TEXTURE, UV %s %.9f * s).rgb' % [
+		samples.push_back('%.9f * texture(screen_texture, SCREEN_UV %s %.9f * s).rgb' % [
 			w, "+" if x >= 0 else "-", abs(x)
 		])
 	var lines = [
@@ -61,8 +61,9 @@ func _run():
 		"// Desired blur radius.",
 		"uniform float radius = %.9f;" % [RADIUS],
 		"",
+		"uniform sampler2D screen_texture : hint_screen_texture;",
 		"void fragment() {",
-		"\tvec2 s = radius / DEFAULT_RADIUS * step / vec2(textureSize(TEXTURE, 0));",
+		"\tvec2 s = radius / DEFAULT_RADIUS * step / vec2(textureSize(screen_texture, 0));",
 		"\tCOLOR.rgb =",
 		"\t\t" + " +\n\t\t".join(samples) + ";",
 		"\tCOLOR.a = 1.0;",
